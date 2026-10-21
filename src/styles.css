@@ -1,0 +1,359 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-sky-start: var(--sky-start);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-active: var(--nav-active);
+  --color-lineart-stroke: var(--lineart-stroke);
+  --color-vermilion: var(--vermilion);
+  --color-teal: var(--teal);
+  --color-rice-paper: var(--rice-paper);
+  --color-bamboo: var(--bamboo);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+}
+
+:root {
+  --radius: 0.875rem; /* 14px */
+  --font-serif: "Source Han Serif CN", "Noto Serif SC", "KaiTi", "STKaiti", serif;
+  --font-sans: "Source Han Sans CN", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  
+  /* 新中式克制配色 */
+  --background: oklch(0.97 0.005 80); /* 米纸色 #F8F5EF */
+  --foreground: oklch(0.25 0.02 30); /* 深褐灰 */
+  --card: oklch(1 0 0); /* 纯白卡片 */
+  --card-foreground: oklch(0.25 0.02 30);
+  --primary: oklch(0.45 0.08 45); /* 檀木棕 #8B7355 */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.65 0.06 140); /* 低饱和竹青 #7A9970 */
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.93 0.005 80); /* 浅米灰 */
+  --muted-foreground: oklch(0.55 0.02 80);
+  --accent: oklch(0.65 0.06 140); /* 竹青 */
+  --accent-foreground: oklch(1 0 0);
+  --border: oklch(0.90 0.005 80); /* 极淡边框 */
+  --sky-start: oklch(0.65 0.06 140); /* 竹青 */
+  --nav-bg: oklch(0.97 0.005 80); /* 米纸色 */
+  --nav-active: oklch(0.45 0.08 45); /* 檀木棕 */
+  --lineart-stroke: oklch(0.45 0.08 45); /* 檀木棕线条 */
+  --vermilion: oklch(0.55 0.12 30); /* 低饱和朱红（克制版） */
+  --teal: oklch(0.65 0.06 140); /* 竹青 */
+  --rice-paper: oklch(0.97 0.005 80); /* 米纸色 */
+  --bamboo: oklch(0.45 0.08 45); /* 檀木棕 */
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+}
+
+/* 隐藏平台注入的右侧侧边栏和调试工具 */
+[class*="oneday-selected-element"],
+[class*="oneday-highlight"],
+.resizable-panel,
+.sidebar-drag-handle {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* 呼吸动画 - 用于工坊入口卡片 */
+@keyframes breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* 卡片点击缩放反馈 */
+.card-tap {
+  transition: transform 0.2s;
+}
+.card-tap:active {
+  transform: scale(0.98);
+}
+
+/* 呼吸动画 - 缩放版（用于工坊入口卡片） */
+@keyframes breathe-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+.animate-breathe-scale {
+  animation: breathe-scale 3s ease-in-out infinite;
+}
+
+/* 隐藏滚动条 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 瀑布流布局 */
+.masonry-grid {
+  column-count: 2;
+  column-gap: 12px;
+}
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+
+/* 水墨底纹 - 降低透明度更克制 */
+.ink-pattern {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 96px;
+  height: 96px;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 80 Q40 60 60 70 Q80 80 90 50' stroke='%238B7355' stroke-width='2' fill='none' opacity='0.5'/%3E%3Cpath d='M30 90 Q50 70 70 80' stroke='%238B7355' stroke-width='1.5' fill='none' opacity='0.3'/%3E%3C/svg%3E");
+  background-size: cover;
+}
+
+/* 竹篾底纹 - 用于个人信息卡片 */
+.bamboo-pattern {
+  position: relative;
+  overflow: hidden;
+}
+.bamboo-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0 L20 200 M40 0 L40 200 M60 0 L60 200 M80 0 L80 200 M100 0 L100 200 M120 0 L120 200 M140 0 L140 200 M160 0 L160 200 M180 0 L180 200' stroke='%238B7355' stroke-width='1' fill='none'/%3E%3Cpath d='M0 40 Q50 35 100 40 Q150 45 200 40 M0 80 Q50 75 100 80 Q150 85 200 80 M0 120 Q50 115 100 120 Q150 125 200 120 M0 160 Q50 155 100 160 Q150 165 200 160' stroke='%238B7355' stroke-width='0.5' fill='none'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* 进度条 */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-muted);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--color-teal);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* 彩色图标圆圈 - 降低饱和度 */
+.icon-circle-vermilion {
+  background-color: oklch(0.94 0.015 30 / 0.25);
+  color: var(--color-vermilion);
+}
+.icon-circle-teal {
+  background-color: oklch(0.94 0.015 140 / 0.25);
+  color: var(--color-teal);
+}
+.icon-circle-bamboo {
+  background-color: oklch(0.94 0.015 45 / 0.25);
+  color: var(--bamboo);
+}
+.icon-circle-primary {
+  background-color: oklch(0.94 0.015 45 / 0.25);
+  color: var(--color-primary);
+}
+
+/* 竹篾纹理 - 用于滑块轨道 */
+.bamboo-track {
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 0 L2 10 M5 0 L5 10 M8 0 L8 10' stroke='%238B7355' stroke-width='0.5' fill='none' opacity='0.3'/%3E%3Cpath d='M0 3 Q2.5 2.5 5 3 Q7.5 3.5 10 3 M0 7 Q2.5 6.5 5 7 Q7.5 7.5 10 7' stroke='%238B7355' stroke-width='0.3' fill='none' opacity='0.2'/%3E%3C/svg%3E");
+  background-size: 10px 10px;
+}
+
+/* 调色盘色块晕开动画 */
+@keyframes palette-ripple {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.palette-ripple {
+  animation: palette-ripple 0.4s ease-out;
+}
+
+/* 试飞全屏层 */
+.flight-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: linear-gradient(to bottom, oklch(0.85 0.04 140), var(--color-background));
+  overflow: hidden;
+}
+
+/* 白云 */
+.cloud {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  filter: blur(2px);
+}
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+}
+
+/* 飞鸟 */
+.bird {
+  position: absolute;
+  width: 20px;
+  height: 10px;
+}
+.bird::before,
+.bird::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: #333;
+  border-radius: 50%;
+}
+.bird::before {
+  left: 0;
+  transform: rotate(-20deg);
+}
+.bird::after {
+  right: 0;
+  transform: rotate(20deg);
+}
+
+/* 呼吸发光按钮 - 降低强度 */
+@keyframes breathe-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(139, 115, 85, 0); }
+  50% { box-shadow: 0 0 15px rgba(139, 115, 85, 0.3); }
+}
+.breathe-glow {
+  animation: breathe-glow 2s ease-in-out infinite;
+}
+
+/* 金色粒子 - 降低饱和度 */
+.golden-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, oklch(0.85 0.12 80), oklch(0.75 0.1 70));
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* 风向指示器 */
+.wind-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 江湖称号 - 降低饱和度 */
+.kite-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: bold;
+  color: oklch(0.75 0.1 80);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2), -1px -1px 0 oklch(0.45 0.08 45), 1px -1px 0 oklch(0.45 0.08 45), -1px 1px 0 oklch(0.45 0.08 45), 1px 1px 0 oklch(0.45 0.08 45);
+  text-align: center;
+}
+
+/* 抖动动画 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* 骨架形状卡片选中态 - 檀木棕边框 */
+.shape-card-selected {
+  transform: translateY(-4px) scale(1.05);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 4px 12px rgba(139, 115, 85, 0.2);
+}
+
+/* 线轴圆钮 */
+.spool-thumb {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-bamboo);
+  border: 2px solid oklch(0.35 0.06 45);
+}
+.spool-thumb::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  right: 2px;
+  height: 2px;
+  background: oklch(0.35 0.06 45);
+  transform: translateY(-50%);
+}
+
+/* Canvas 风筝飘动动画 */
+@keyframes kite-float {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.kite-float {
+  animation: kite-float 4s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* 题签装饰线 */
+.section-title-decoration {
+  position: relative;
+  padding-left: 12px;
+}
+.section-title-decoration::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 16px;
+  background-color: var(--color-primary);
+  border-radius: 1.5px;
+}
